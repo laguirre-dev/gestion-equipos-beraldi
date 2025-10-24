@@ -7,10 +7,10 @@ import pymssql
 # load_dotenv()
 
 def connect_softland():
-    server = st.secrets["DB_SERVER"]
-    user = st.secrets["DB_USER"]
-    password = st.secrets["DB_PASSWORD"]
-    database = st.secrets["DB_NAME"]
+    server = st.secrets["SOFTLAND_DB_SERVER"]
+    user = st.secrets["BERALDI_PYTHON_DB_USER"]
+    password = st.secrets["BERALDI_PYTHON_DB_PASSWORD"]
+    database = st.secrets["SOFTLAND_DB_NAME"]
 
     conn = pymssql.connect(
         server=server,
