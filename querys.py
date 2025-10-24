@@ -1,4 +1,4 @@
-def vencimientos(dias_vencimiento):
+def vencimientos():
     return f"""
     SELECT 
         Patente, 
@@ -12,7 +12,8 @@ def vencimientos(dias_vencimiento):
                 WHEN DiasVencimiento > 15 THEN 'En fecha'
         END AS ClasVTO,
         TipoVencimiento,
-        Operacion
+        Operacion,
+        'Pendiente' Estado
     FROM (
     SELECT
             MEMEQH.MEMEQH_CODIGO as Patente,
@@ -61,6 +62,6 @@ def vencimientos(dias_vencimiento):
             MEMEQH.USR_MEMEQH_CLIENT,
             MEMEQH.USR_MEMEQH_BASEOP,
             USR_GRTOPE.USR_GRTOPE_DESCRP) AS T
-    WHERE DiasVencimiento < {dias_vencimiento} 
+    -- WHERE DiasVencimiento 
     ORDER BY 4;
     """
