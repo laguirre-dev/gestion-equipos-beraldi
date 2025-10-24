@@ -5,8 +5,11 @@ import plotly.express as px
 import pandas as pd
 import datetime
 import os
-import json
+# from dotenv import load_dotenv
 import time
+
+# load_dotenv()
+
 
 st.set_page_config(
     page_title="Gestion VTO Equipos - Grupo Beraldi",
@@ -28,7 +31,7 @@ def login():
             # definimos un contenedor para el login
             con = st.container(horizontal_alignment="center", width=500, border=True)
             # logo, usuario y contraseña
-            con.image(os.getenv("URL_LOGO"))
+            con.image(st.secrets["URL_LOGO"])
             user = con.text_input("Usuario")
             pwd = con.text_input("Contraseña", type="password")
             # boton para login
@@ -42,9 +45,20 @@ def login():
                 st.rerun()
     return st.session_state.logged
 
+
 def get_data(conn, dias_vencimiento):
     df = pd.read_sql(vencimientos(dias_vencimiento), conn)
     return df
+
+def color_vencimiento(val):
+    if val < 0:
+        return "background-color: #ff4d4d; color: white"  # rojo
+    elif val < 7:
+        return "background-color: #ff9800; color: black"  # naranja
+    elif val < 15:
+        return "background-color: #ffc107; color: black"  # amarillo
+    else:
+        return "background-color: #28a745; color: white"  # verde
 
 
 status = login()
@@ -145,32 +159,34 @@ if status:
         col1, col2, col3, col4 = st.columns(4, border=True)
         col1.metric("Total", totales, delta="100%", delta_color="off")
         col2.metric("Vencidos", vencidos, delta=f"{p_vencidos}%", delta_color="off")
-        col3.metric("Por vencer", por_vencer, delta=f"{p_por_vencer}%", delta_color="off")
+        col3.metric(
+            "Por vencer", por_vencer, delta=f"{p_por_vencer}%", delta_color="off"
+        )
         col4.metric("En fecha", en_fecha, delta=f"{p_en_fecha}%", delta_color="off")
         # ---
         # Armado de Graficos
         # ---
         # Grafico 1
-        conteo_tipo = df_filtro['TipoVencimiento'].value_counts().reset_index()
-        conteo_tipo.columns = ['TipoVencimiento', 'Cantidad']
+        conteo_tipo = df_filtro["TipoVencimiento"].value_counts().reset_index()
+        conteo_tipo.columns = ["TipoVencimiento", "Cantidad"]
         fig1 = px.bar(
             conteo_tipo,
-            x='TipoVencimiento',
-            y='Cantidad',
-            color='TipoVencimiento',
-            title='Conteo por Tipo de Vencimiento',
-            labels={'TipoVencimiento': 'Tipo', 'Cantidad': 'Cantidad'}
+            x="TipoVencimiento",
+            y="Cantidad",
+            color="TipoVencimiento",
+            title="Conteo por Tipo de Vencimiento",
+            labels={"TipoVencimiento": "Tipo", "Cantidad": "Cantidad"},
         )
         # Grafico 2
-        conteo_tipo = df_filtro['ClasVTO'].value_counts().reset_index()
-        conteo_tipo.columns = ['ClasVTO', 'Cantidad']
+        conteo_tipo = df_filtro["ClasVTO"].value_counts().reset_index()
+        conteo_tipo.columns = ["ClasVTO", "Cantidad"]
         fig2 = px.bar(
             conteo_tipo,
-            x='ClasVTO',
-            y='Cantidad',
-            color='ClasVTO',
-            title='Conteo por Clasificacion de VTO',
-            labels={'ClasVTO': 'Clasificacion', 'Cantidad': 'Cantidad'}
+            x="ClasVTO",
+            y="Cantidad",
+            color="ClasVTO",
+            title="Conteo por Clasificacion de VTO",
+            labels={"ClasVTO": "Clasificacion", "Cantidad": "Cantidad"},
         )
         # Creamos 2 tabs
         graficos, detalle = st.tabs(["Graficos", "Detalle"])
@@ -185,5 +201,6 @@ if status:
             # ---
             col2.plotly_chart(fig2, use_container_width=True)
         with detalle:
-            df_filtro
-        
+            df_filtro['DiasVencimiento'] = df_filtro['DiasVencimiento'].astype(int)
+            styled_df = df_filtro.style.map(color_vencimiento, subset=["DiasVencimiento"])
+            styled_df
