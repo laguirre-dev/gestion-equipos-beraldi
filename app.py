@@ -33,7 +33,7 @@ def login():
         with st.container(horizontal_alignment="center"):
             con = st.container(horizontal_alignment="center", width=500, border=True)
             # con.image(os.getenv("URL_LOGO"))
-            con.image(st.secrets("URL_LOGO"))
+            con.image(st.secrets["URL_LOGO"])
             user = con.text_input("Usuario", key="user")
             pwd = con.text_input("Contraseña", type="password", key="pwd")
             if con.button("Ingresar", type="primary") and user and USERS.get(user) == pwd:
