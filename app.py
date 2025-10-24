@@ -4,10 +4,10 @@ import streamlit as st
 import pandas as pd
 import datetime
 import os
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 import time
 
-load_dotenv()
+# load_dotenv()
 
 # --- Configuración de página ---
 st.set_page_config(
@@ -32,7 +32,8 @@ def login():
     if not st.session_state.logged:
         with st.container(horizontal_alignment="center"):
             con = st.container(horizontal_alignment="center", width=500, border=True)
-            con.image(os.getenv("URL_LOGO"))
+            # con.image(os.getenv("URL_LOGO"))
+            con.image(st.secrets("URL_LOGO"))
             user = con.text_input("Usuario", key="user")
             pwd = con.text_input("Contraseña", type="password", key="pwd")
             if con.button("Ingresar", type="primary") and user and USERS.get(user) == pwd:
