@@ -1,10 +1,10 @@
 import os
 import streamlit as st
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 # import pyodbc
 import pymssql
 
-load_dotenv()
+# load_dotenv()
 
 def connect_softland():
     server = st.secrets["SOFTLAND_DB_SERVER"]
