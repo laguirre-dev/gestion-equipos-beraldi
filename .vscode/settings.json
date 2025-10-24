@@ -1,0 +1,24 @@
+{
+    "dbcode.connections": [
+        {
+            "connectionId": "iaumTIzdRlTajsbEZVJwU",
+            "name": "Softland",
+            "driver": "mssql",
+            "color": "#0085CC",
+            "host": "10.250.2.4",
+            "port": 1433,
+            "ssl": false,
+            "driverOptions": {
+                "authType": "sql"
+            },
+            "username": "beraldipython",
+            "password": "k30swzOBYvYycYKrH+7E+t6HDUjPnp0PijKuEVe4Lyew3ycnkt/i3A==",
+            "savePassword": "encrypted",
+            "salt": "tQ7q3wvttK2Rs7/NY1defA==",
+            "database": "GRUPO_BERALDI",
+            "readOnly": false,
+            "connectionTimeout": 10,
+            "connectionType": "host"
+        }
+    ]
+}
