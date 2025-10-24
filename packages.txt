@@ -1,0 +1,4 @@
+unixodbc
+unixodbc-dev
+msodbcsql17
+mssql-tools
