@@ -3,12 +3,12 @@ import streamlit as st
 # from dotenv import load_dotenv
 # import pyodbc
 # usemos otra libreria en vez de pyodbc
-import pymssql
+import sqlalchemy
 
 # load_dotenv()
 
 def connect_softland2():
-    conn = pymssql.connect(
+    conn = sqlalchemy.connect(
         server=st.secrets['SOFTLAND_DB_SERVER'],
         database=st.secrets['SOFTLAND_DB_NAME'],
         user=st.secrets['BERALDI_PYTHON_DB_USER'],
